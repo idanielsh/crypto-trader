@@ -8,11 +8,11 @@ class AbstractMarket(ABC):
         super().__init__()
 
     @abstractmethod
-    def buy(self, price):
+    def buy(self, num):
         raise NotImplementedError()
 
     @abstractmethod
-    def buy(self, price):
+    def sell(self, amount):
         raise NotImplementedError()
 
     @abstractmethod
@@ -24,6 +24,6 @@ class AbstractMarket(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    def get_new_market_data() -> pd.DataFrame:
+    def get_new_market_data(self) -> pd.DataFrame:
         raise NotImplementedError()
 
