@@ -31,16 +31,17 @@ logging.basicConfig(
     )
 logging.info("Program boot")
 
-simulation_data = load_simulation_data(r'data/LUNAUSDT-4h-2021-Increasing' )
+
+# SETTINGS
+initial_data_for_trader = 50
+simulation_data = load_simulation_data(r'data/LUNAUSDT-15m-2021-Increasing' )
 strategy = BulingerBandsStrategy()
-market=SimulatedMarket(simulation_data,50)
-
-print(len(simulation_data))
-
-trader = Trader(money=100, historical_data=simulation_data.iloc[:50], strategy=strategy, market=market)
+market=SimulatedMarket(simulation_data,initial_data_for_trader)
+trader = Trader(money=100, historical_data=simulation_data.iloc[:initial_data_for_trader], strategy=strategy, market=market)
 
 
-for _ in range(2150):
+# Iterates through data
+for _ in range(len(simulation_data)-initial_data_for_trader+1):
     trader.make_desicion()
     trader.update_historical_data()
 
