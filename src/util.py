@@ -17,6 +17,8 @@ def beautify_klines_df(df: pd.DataFrame):
     df['open_time'] = df['open_time'].apply(lambda x: datetime.fromtimestamp(x/1000))
     df['close_time'] = df['close_time'].apply(lambda x: datetime.fromtimestamp(x/1000))
 
+    df = df.set_index('open_time')
+
     return df
 
 

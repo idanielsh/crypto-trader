@@ -1,7 +1,7 @@
 import pandas as pd
-from src.strategies.abstract_strategy import AbstractStrategy
-from src.indicators.bullinger_bands_indicator import BollingerBandsIndicator
-from src.util import ACTION
+from strategies.abstract_strategy import AbstractStrategy
+from indicators.bullinger_bands_indicator import BollingerBandsIndicator
+from util import ACTION
 
 
 class BulingerBandsStrategy(AbstractStrategy):
@@ -9,7 +9,12 @@ class BulingerBandsStrategy(AbstractStrategy):
 
     def __init__(self) -> None:
         super().__init__()
-        self.bullinger_bands_indicator = BollingerBandsIndicator
+        self.bullinger_bands_indicator = BollingerBandsIndicator(window=20, window_dev=2)
 
     def get_action(self, price, df: pd.DataFrame) -> ACTION:
-        print(self.bullinger_bands_indicator.evaluate(df))
+        low, med, high = self.bullinger_bands_indicator.evaluate(df = df)
+        if price < low:
+            return ACTION.BUY
+        if price > high:
+            return ACTION.SELL
+        return ACTION.HOLD

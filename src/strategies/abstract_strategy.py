@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import pandas as pd
 
-from src.util import ACTION
+from util import ACTION
 
 class AbstractStrategy(ABC):
 

@@ -1,36 +1,48 @@
 import pandas as pd
+pd.options.mode.chained_assignment = None
+from markets.abstract_market import AbstractMarket
 
-from src.state import State
-from src.strategies.abstract_strategy import AbstractStrategy
-from src.util import ACTION
+from state import State
+from strategies.abstract_strategy import AbstractStrategy
+from util import ACTION
 
 
 class Trader:
     state: State
     historical_data: pd.DataFrame
     strategy: AbstractStrategy
+    market: AbstractMarket
 
     def __init__(self, money: int, historical_data: pd.DataFrame, 
-        strategy: AbstractStrategy
+        strategy: AbstractStrategy, market: AbstractMarket
         ) -> None:
         self.state = State(cash=money, crypto_owned=0)
         self.historical_data = historical_data
         self.strategy = strategy
+        self.market = market
 
-    def make_desicion(self, price):
-        if self.strategy.get_action(price=price, df = self.historical_data) == ACTION.BUY:
-            self.buy(price)
-        elif self.strategy.get_action(price=price, df = self.historical_data) == ACTION.SELL:
-            self.sell(price)
+    def make_desicion(self):
+        buy_price = self.market.get_buy_price()
+        sell_price = self.market.get_sell_price()
 
-    def update_historical_data(self, new_data: pd.DataFrame):
-        self.historical_data = self.historical_data.append(new_data, ignore_index=True)
+        if self.strategy.get_action(price=buy_price, df = self.historical_data) == ACTION.BUY:
+            self.buy(self.state.cash)
+        elif self.strategy.get_action(price=sell_price, df = self.historical_data) == ACTION.SELL:
+            self.sell(self.state.crypto_owned)
 
-    def buy(self, price):
-        pass
+    def update_historical_data(self):
+        self.historical_data = self.historical_data.append(self.market.get_new_market_data(), ignore_index=True)
 
-    def sell(self, price):
-        pass
+    def buy(self, cost):
+        if self.state.cash > 0:
+            self.state.crypto_owned = self.market.buy(cost)
+            self.state.cash = 0
+        
+
+    def sell(self, amount):
+        if self.state.crypto_owned > 0:
+            self.state.cash = self.market.sell(amount)
+            self.state.crypto_owned = 0
 
     
 
