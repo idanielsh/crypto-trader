@@ -1,12 +1,12 @@
 from typing import Any, Tuple
 import pandas as pd
 pd.options.mode.chained_assignment = None
-from indicators.abstract_indicator import AbstracIndicator
+from indicators.abstract_indicator import AbstractIndicator
 from ta.volatility import BollingerBands
 
 
 
-class BollingerBandsIndicator(AbstracIndicator):
+class BollingerBandsIndicator(AbstractIndicator):
 
 
     def __init__(self, window=20, window_dev=2) -> None:
@@ -16,7 +16,7 @@ class BollingerBandsIndicator(AbstracIndicator):
         
 
     def evaluate(self, df: pd.DataFrame) -> Tuple[int, int, int]:
-        df = df.iloc[-20:]
+        df = df.iloc[-self.window:]
         
         indicator_bb = BollingerBands(close=df['close'], window=self.window, window_dev=self.window_dev)
 

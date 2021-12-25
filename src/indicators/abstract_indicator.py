@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Any
 import pandas as pd
 
-class AbstracIndicator(ABC):
+class AbstractIndicator(ABC):
 
     def __init__(self) -> None:
         super().__init__()

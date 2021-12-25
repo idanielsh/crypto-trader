@@ -25,9 +25,12 @@ class Trader:
         buy_price = self.market.get_buy_price()
         sell_price = self.market.get_sell_price()
 
-        if self.strategy.get_action(price=buy_price, df = self.historical_data) == ACTION.BUY:
+        buy_decision = self.strategy.get_action(price=buy_price, df = self.historical_data)
+        sell_decision = self.strategy.get_action(price=sell_price, df = self.historical_data)
+
+        if buy_decision is ACTION.BUY:
             self.buy(self.state.cash)
-        elif self.strategy.get_action(price=sell_price, df = self.historical_data) == ACTION.SELL:
+        elif sell_decision is ACTION.SELL:
             self.sell(self.state.crypto_owned)
 
     def update_historical_data(self):

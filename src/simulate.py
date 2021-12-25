@@ -1,5 +1,7 @@
 import pandas as pd
 import glob
+from strategies.ensemble_strategy import EnsembleStrategy
+from strategies.macd_strategy import MACDStrategy
 from util import beautify_klines_df
 import logging
 
@@ -29,7 +31,7 @@ logging.basicConfig(
     )
 logging.info("Program boot")
 
-simulation_data = load_simulation_data(r'/home/idanielsh/Documents/crypto-trading-app/crypto-trader/data/data/spot/daily/klines/ETHUSDT/15m' )
+simulation_data = load_simulation_data(r'data/LUNAUSDT-4h-2021-Increasing' )
 strategy = BulingerBandsStrategy()
 market=SimulatedMarket(simulation_data,50)
 
