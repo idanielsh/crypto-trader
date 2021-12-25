@@ -4,6 +4,7 @@ from indicators.macd_indicator import MACDIndicator
 from util import ACTION
 
 
+# Strategy also didn't work great
 class MACDStrategy(AbstractStrategy):
     macd_indicator: MACDIndicator
 

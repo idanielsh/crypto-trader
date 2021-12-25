@@ -3,7 +3,7 @@ from strategies.abstract_strategy import AbstractStrategy
 from indicators.bullinger_bands_indicator import BollingerBandsIndicator
 from util import ACTION
 
-
+# Outperforms bearish markets, underperforms bullish markets
 class BulingerBandsStrategy(AbstractStrategy):
     bullinger_bands_indicator: BollingerBandsIndicator
 

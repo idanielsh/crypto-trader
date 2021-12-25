@@ -5,7 +5,7 @@ from util import ACTION
 from strategies.bullinger_bands_strategy import BulingerBandsStrategy
 from strategies.macd_strategy import MACDStrategy
 
-
+# Strategy didn't work great
 class EnsembleStrategy:
     def __init__(self):
         self.macd_strategy = MACDStrategy()
