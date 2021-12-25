@@ -21,7 +21,7 @@ class Trader:
         self.strategy = strategy
         self.market = market
 
-    def make_desicion(self):
+    def make_decision(self):
         buy_price = self.market.get_buy_price()
         sell_price = self.market.get_sell_price()
 
