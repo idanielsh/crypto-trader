@@ -12,6 +12,7 @@ class Trader:
     historical_data: pd.DataFrame
     strategy: AbstractStrategy
     market: AbstractMarket
+    recent_buy_price: float
 
     def __init__(self, money: int, historical_data: pd.DataFrame, 
         strategy: AbstractStrategy, market: AbstractMarket
@@ -20,13 +21,22 @@ class Trader:
         self.historical_data = historical_data
         self.strategy = strategy
         self.market = market
+        self.recent_buy_price = None
 
     def make_desicion(self):
         buy_price = self.market.get_buy_price()
         sell_price = self.market.get_sell_price()
 
-        buy_decision = self.strategy.get_action(price=buy_price, df = self.historical_data)
-        sell_decision = self.strategy.get_action(price=sell_price, df = self.historical_data)
+        buy_decision = self.strategy.get_action(
+            price=buy_price, 
+            purchase_price=self.recent_buy_price, 
+            df = self.historical_data
+            )
+        sell_decision = self.strategy.get_action(
+            price=sell_price, 
+            purchase_price=self.recent_buy_price, 
+            df = self.historical_data
+            )
 
         if buy_decision is ACTION.BUY:
             self.buy(self.state.cash)
@@ -38,12 +48,14 @@ class Trader:
 
     def buy(self, cost):
         if self.state.cash > 0:
+            self.recent_buy_price = self.market.get_buy_price()
             self.state.crypto_owned = self.market.buy(cost)
             self.state.cash = 0
         
 
     def sell(self, amount):
         if self.state.crypto_owned > 0:
+            self.recent_buy_price = None
             self.state.cash = self.market.sell(amount)
             self.state.crypto_owned = 0
 

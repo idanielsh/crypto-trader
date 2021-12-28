@@ -11,7 +11,7 @@ class EnsembleStrategy:
         self.macd_strategy = MACDStrategy()
         self.bullinger_bands_strategy = BulingerBandsStrategy()
 
-    def get_action(self, price, df: pd.DataFrame) -> ACTION:
+    def get_action(self, price, purchase_price, df: pd.DataFrame) -> ACTION:
         macd = self.macd_strategy.get_action(price, df)
         bb = self.bullinger_bands_strategy.get_action(price, df)
 

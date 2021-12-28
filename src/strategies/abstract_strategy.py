@@ -9,7 +9,7 @@ class AbstractStrategy(ABC):
         super().__init__()
 
     @abstractmethod
-    def get_action(self, price, df: pd.DataFrame) -> ACTION:
+    def get_action(self, price, purchase_price, df: pd.DataFrame) -> ACTION:
         raise NotImplementedError()
 
 

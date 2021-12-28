@@ -1,5 +1,6 @@
 import pandas as pd
 import glob
+from strategies.greedy_strategy import GreedyStrategy
 from strategies.ensemble_strategy import EnsembleStrategy
 from strategies.macd_strategy import MACDStrategy
 from util import beautify_klines_df
@@ -34,14 +35,15 @@ logging.info("Program boot")
 
 # SETTINGS
 initial_data_for_trader = 50
-simulation_data = load_simulation_data(r'data/LUNAUSDT-15m-2021-Increasing' )
-strategy = BulingerBandsStrategy()
+simulation_data = load_simulation_data(r'/home/idanielsh/Documents/crypto-trading-app/crypto-trader/data/WAXPUSDT-15m-2021-Decreasing' )
+strategy = GreedyStrategy()
 market=SimulatedMarket(simulation_data,initial_data_for_trader)
 trader = Trader(money=100, historical_data=simulation_data.iloc[:initial_data_for_trader], strategy=strategy, market=market)
 
+print(len(simulation_data))
 
 # Iterates through data
-for _ in range(len(simulation_data)-initial_data_for_trader+1):
+for _ in range(len(simulation_data)-52):
     trader.make_desicion()
     trader.update_historical_data()
 
