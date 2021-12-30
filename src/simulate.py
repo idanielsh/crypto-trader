@@ -35,12 +35,11 @@ logging.info("Program boot")
 
 # SETTINGS
 initial_data_for_trader = 50
-simulation_data = load_simulation_data(r'/home/idanielsh/Documents/crypto-trading-app/crypto-trader/data/WAXPUSDT-15m-2021-Decreasing' )
+simulation_data = load_simulation_data(r'data/ETHUSDT-15m-2021-Decresing' )
 strategy = GreedyStrategy()
 market=SimulatedMarket(simulation_data,initial_data_for_trader)
 trader = Trader(money=100, historical_data=simulation_data.iloc[:initial_data_for_trader], strategy=strategy, market=market)
 
-print(len(simulation_data))
 
 # Iterates through data
 for _ in range(len(simulation_data)-52):
@@ -49,7 +48,7 @@ for _ in range(len(simulation_data)-52):
 
 
 trader.sell(trader.state.crypto_owned)
-print(trader.state.cash)
+print('Final Account Balance:', trader.state.cash)
 
 
 
